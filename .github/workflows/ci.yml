@@ -1,0 +1,146 @@
+name: 'Run tests for ci cd'
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+env:
+  is_package: false # set this to true if you use this template for a package that you want to publish
+  publish_docker: false # set this to true if you use this template to build and push a docker file to a registry
+  POETRY_VERSION: 1.3.1
+
+jobs:
+  test-docker:
+    runs-on: ubuntu-latest
+    env:
+      tag: "docker-${{ github.sha }}:latest"
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      - name: Cache Docker layers
+        uses: actions/cache@v2
+        with:
+          path: /tmp/.buildx-cache
+          key: buildx-${{ github.sha }}
+          restore-keys: |
+            buildx-
+      - name: Build docker image
+        uses: docker/build-push-action@v3
+        id: docker-build
+        with:
+            context: .
+            load: true
+            push: false
+            build-args: |
+               BUILD=test
+            cache-from: type=local,src=/tmp/.buildx-cache
+            cache-to: type=local,dest=/tmp/.buildx-cache-new
+            tags: ${{env.tag}}
+      - name: Move cache #  see https://evilmartians.com/chronicles/build-images-on-github-actions-with-docker-layer-caching
+        run: |
+          rm -rf /tmp/.buildx-cache
+          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
+      - name: run tests in docker
+        uses: addnab/docker-run-action@v3
+        with:
+          shell: bash
+          image: ${{steps.docker-build.outputs.imageid}}
+          run: |
+            ruff . && black --check .
+            pytest -vv
+  prep-vars:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-vars.outputs.matrix }}
+      publish_docker: ${{ steps.set-vars.outputs.publish_docker }}
+    steps:
+      - name: Check out code into the Go module directory
+        uses: actions/checkout@v3
+      - id: set-vars
+        run: |
+          echo "matrix={\"python-version\":${{ env.is_package && '[ \"3.7\", \"3.8\", \"3.9\", \"3.10\" ]' || '[ \"3.10\" ]' }} }" >> $GITHUB_OUTPUT
+          echo "publish_docker=${{env.publish_docker}}" >> $GITHUB_OUTPUT
+  test:
+    runs-on: ubuntu-latest
+    needs: prep-vars
+    strategy:
+      matrix: ${{fromJson(needs.prep-vars.outputs.matrix)}}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Install poetry
+        run: pipx install poetry
+      - name: setup python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: 'poetry'
+      - name: Install Dependencies
+        run: poetry install
+      - name: Run linter
+        run: poetry run ruff .
+      - name: Run tests
+        run: poetry run pytest -vv
+  build-n-publish:
+    name: Build and publish Python 🐍 distributions 📦 to PyPI
+    runs-on: ubuntu-latest
+    needs: [test, test-docker]
+    if: github.ref_type == 'tag'
+    env:
+      python-version: 3.10
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Install poetry
+        run: pipx install poetry
+      - name: setup python ${{ env.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ env.python-version }}
+          cache: 'poetry'
+      - name: Install Dependencies
+        run: poetry install
+      - name: Set the right version
+        run: poetry version ${{  github.ref_name }}
+      - name: Build a binary wheel and a source tarball
+        run: poetry build
+      - name: Publish
+        if: ${{env.is_package}}
+        run: |
+          poetry config pypi-token.pypi ${{ secrets.PYPI_TOKEN }}
+          poetry publish --build
+  publish-docker:
+    name: Publish docker file and push it to a registry
+    runs-on: ubuntu-latest
+    needs: [test, test-docker, prep-vars]
+    if: needs.prep-vars.outputs.publish_docker && github.ref_type == 'tag'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      - name: Login to DockerHub
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ secrets.DOCKER_REGISTRY }}
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Cache Docker layers
+        uses: actions/cache@v2
+        with:
+          path: /tmp/.buildx-cache
+          key: buildx-${{ github.sha }}
+          restore-keys: |
+            buildx-
+      - name: Build and push
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          push: true
+          cache-from: type=local,src=/tmp/.buildx-cache
+          tags: docker:${{  github.ref_name }}
+          build-args: |
+            BUILD_VERSION=${{  github.ref_name }}
