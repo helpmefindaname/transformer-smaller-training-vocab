@@ -75,3 +75,19 @@ To use more efficient training, it is enough to do the following changes to an a
 ```
 
 Done! The Model will now be trained with only use the necessary parts of the token embeddings.
+
+## Impact
+
+Here is a table to document how much impact this technique has on training:
+
+| **Model** | **Dataset** | **Vocab reduction** | **Model size reduction** |
+|-----------|-------------|---------------------|--------------------------|
+| [xlm-roberta-large](https://huggingface.co/xlm-roberta-large) | CONLL 03 (en) |  93.13% | 42.58% |
+| [xlm-roberta-base](https://huggingface.co/xlm-roberta-base) | CONLL 03 (en) | 93.13% | 64.31% |
+| [bert-base-cased](https://huggingface.co/bert-base-cased) | CONLL 03 (en) | 43.64% | 08.97% |
+| [bert-base-uncased](https://huggingface.co/bert-base-uncased) | CONLL 03 (en) | 47.62% | 10.19% |
+| [bert-large-uncased](https://huggingface.co/roberta-base) | CONLL 03 (en) | 47.62% | 04.44% |
+| [roberta-base](https://huggingface.co/roberta-base) | CONLL 03 (en) | 58.39% | 18.08% |
+| [roberta-large](https://huggingface.co/roberta-large) | CONLL 03 (en) | 58.39% | 08.45% |
+
+Notice that while those reduced embeddings imply slightly less computation effort, those gains are neglectable, as the gradient computation for the parameters of transformer layers are dominant.
