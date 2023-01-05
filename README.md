@@ -19,12 +19,12 @@ To reduce these inconveniences, this package provides a simple and easy to use w
 
 ### Limitations
 
-As huggingface-transformers has - per current date - no interface for overwriting the vocabulary in transformers, only the following Tokenizers are supported:
-
+This library works fine, if you use any [FastTokenizer](https://huggingface.co/docs/transformers/main_classes/tokenizer#transformers.PreTrainedTokenizerFast)
+However if you want to use a `slow` tokenizer, it get's more tricky as huggingface-transformers has - per current date - no interface for overwriting the vocabulary in transformers.
+So they require a custom implementation, currently the following tokenizers are supported:
 * XLMRobertaTokenizer
 * RobertaTokenizer
 * BertTokenizer
-* As well as any [FastTokenizer](https://huggingface.co/docs/transformers/main_classes/tokenizer#transformers.PreTrainedTokenizerFast)
 
 If you want to use a tokenizer that is not on the list, please [create an issue](https://github.com/helpmefindaname/transformer-smaller-training-vocab/issues) for it.
 
