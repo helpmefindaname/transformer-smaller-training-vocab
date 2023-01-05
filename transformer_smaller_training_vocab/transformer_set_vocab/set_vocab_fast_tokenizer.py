@@ -28,11 +28,20 @@ def register_vocab_function(name: str) -> Callable[[SET_VOCAB_FUNCTION], SET_VOC
 def set_fast_tokenizer_vocab(tokenizer: PreTrainedTokenizerFast, vocab: Dict[str, int]) -> None:
 
     tokenizer_obj = json.loads(tokenizer.backend_tokenizer.to_str())
+    fix_special_tokens(tokenizer_obj, vocab)
+    vocab_functions[tokenizer_obj["model"]["type"]](tokenizer_obj, vocab)
+    json_data = json.dumps(tokenizer_obj)
+    tokenizer._tokenizer = Tokenizer.from_str(json_data)
+
+
+def fix_special_tokens(tokenizer_obj: Dict[str, Any], vocab: Dict[str, int]) -> None:
     for special_token in tokenizer_obj["added_tokens"]:
         special_token["id"] = vocab[special_token["content"]]
-    vocab_functions[tokenizer_obj["model"]["type"]](tokenizer_obj, vocab)
-    json_data = json.dumps(tokenizer_obj, indent=4)
-    tokenizer._tokenizer = Tokenizer.from_str(json_data)
+    post_obj = tokenizer_obj["post_processor"]
+    if post_obj is None or "special_tokens" not in post_obj:
+        return
+    for k in post_obj["special_tokens"]:
+        post_obj["special_tokens"][k]["ids"] = [vocab[t] for t in post_obj["special_tokens"][k]["tokens"]]
 
 
 @register_vocab_function("Unigram")
