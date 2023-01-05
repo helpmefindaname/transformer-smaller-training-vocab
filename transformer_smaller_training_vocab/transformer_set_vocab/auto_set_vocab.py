@@ -13,7 +13,7 @@ def register_set_vocab(tokenizer_type: Type[PreTrainedTokenizer]) -> Callable[[T
         tokenizer_set_vocab_functions[tokenizer_type] = fn
 
         def _inner_decorator(tokenizer: TOK, vocab: Dict[str, int]) -> None:
-            fn(tokenizer, vocab)
+            fn(tokenizer, vocab)  # pragma: no cover  # coverage ignores this line
 
         return _inner_decorator
 
@@ -27,7 +27,7 @@ def get_set_vocab_function(tokenizer_cls: Type[PreTrainedTokenizer]) -> TOK_FUNC
     for tokenizer_parent_cls, set_vocab_function in tokenizer_set_vocab_functions.items():
         if issubclass(tokenizer_cls, tokenizer_parent_cls):
             return set_vocab_function
-    raise ValueError(f"type '{tokenizer_cls}' has no implementation for setting the vocabulary.")
+    raise ValueError(f"type '{tokenizer_cls}' has no implementation for setting the vocabulary.")  # pragma: no cover
 
 
 def set_vocab(tokenizer: PreTrainedTokenizer, vocab: Dict[str, int]) -> None:

@@ -17,7 +17,7 @@ def register_vocab_function(name: str) -> Callable[[SET_VOCAB_FUNCTION], SET_VOC
         vocab_functions[name] = fn
 
         def _inner_decorator(tokenizer_obj: Dict[str, Any], vocab: Dict[str, int]) -> None:
-            fn(tokenizer_obj, vocab)
+            fn(tokenizer_obj, vocab)  # pragma: no cover  # coverage ignores this line
 
         return _inner_decorator
 
