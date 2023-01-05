@@ -8,6 +8,7 @@ from transformers import AutoTokenizer, PreTrainedTokenizer, PreTrainedTokenizer
 
 from transformer_smaller_training_vocab.modify_tokenizer import reduce_tokenizer, recreate_tokenizer
 from transformer_smaller_training_vocab.token_stats import get_token_stats
+from transformer_smaller_training_vocab.transformer_set_vocab.auto_set_vocab import get_set_vocab_function
 
 model_names = [
     "xlm-roberta-large",
@@ -19,6 +20,9 @@ fast_model_names = [
     ("microsoft/layoutlm-large-uncased", "WordPiece"),
     ("microsoft/layoutlm-base-cased", "BPE"),
     ("xlm-roberta-large", "Unigram"),
+]
+unsupported_tokenizers = [
+    "google/electra-small-discriminator"
 ]
 
 
@@ -84,6 +88,13 @@ def test_fast_tokenizer_has_fixed_vocab(model_name: str, tokenizer_type: str) ->
     assert tokenizer_model_type == tokenizer_type, f"Expected to have a tokenizer of type '{tokenizer_type}'"
 
     assert_reduction_and_creation_works(tokenizer, texts)
+
+
+@pytest.mark.parametrize("model_name", unsupported_tokenizers)
+def test_tokenizer_is_not_supported_yet(model_name) -> None:
+    tokenizer = AutoTokenizer.from_pretrained(model_name, use_fast=False)
+    with pytest.raises(ValueError):
+        get_set_vocab_function(type(tokenizer))
 
 
 def test_fast_word_level_tokenizer_has_fixed_vocab():
