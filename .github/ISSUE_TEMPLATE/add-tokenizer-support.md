@@ -2,7 +2,7 @@
 name: Add tokenizer support
 about: Describe what tokenizer you want to be supported
 title: "[TOKENIZER-REQUEST]"
-labels: ''
+labels: 'TOKENIZER-REQUEST'
 assignees: ''
 
 ---
