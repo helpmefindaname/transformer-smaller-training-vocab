@@ -8,8 +8,8 @@ from transformer_smaller_training_vocab.token_stats import get_token_stats
 
 
 def calculate_and_assert_get_token_stats(
-        tokenizer: PreTrainedTokenizer,
-        texts: Sequence[Union[TextInput, PreTokenizedInput, TextInputPair, PreTokenizedInputPair]],
+    tokenizer: PreTrainedTokenizer,
+    texts: Sequence[Union[TextInput, PreTokenizedInput, TextInputPair, PreTokenizedInputPair]],
 ) -> Tuple[List[int], List[str]]:
     ids = get_token_stats(tokenizer, texts)
 
@@ -79,4 +79,3 @@ def test_gather_tokenized_text_pair_stats() -> None:
     input_tokens = [tokenizer.convert_ids_to_tokens(input_id) for input_id in input_ids]
     for token in itertools.chain.from_iterable(input_tokens):
         assert token in tokens, "Tokens need to exist in vocab"
-

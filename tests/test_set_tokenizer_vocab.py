@@ -21,9 +21,7 @@ fast_model_names = [
     ("microsoft/layoutlm-base-cased", "BPE"),
     ("xlm-roberta-large", "Unigram"),
 ]
-unsupported_tokenizers = [
-    "google/electra-small-discriminator"
-]
+unsupported_tokenizers = ["google/electra-small-discriminator"]
 
 
 def assert_reduction_and_creation_works(tokenizer: PreTrainedTokenizer, texts: List[str]) -> None:

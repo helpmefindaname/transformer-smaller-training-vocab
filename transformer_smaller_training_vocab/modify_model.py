@@ -29,7 +29,7 @@ def recreate_embedding(
     embedding_weights: torch.Tensor = model.get_input_embeddings().cpu().weight.detach()
     model.get_input_embeddings().__delattr__("weight")
     if empty_cuda_cache:
-        torch.cuda.empty_cache()
+        torch.cuda.empty_cache()  # pragma: no cover  # no need to test this line
     for reduced_id, full_id in enumerate(keep_token_ids):
         saved_embeddings[full_id] = embedding_weights[reduced_id]
     new_input_embedding = nn.Embedding(saved_embeddings.size(0), saved_embeddings.size(1), _weight=saved_embeddings)
