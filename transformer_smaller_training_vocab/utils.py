@@ -10,7 +10,7 @@ def get_texts_from_dataset(
     if isinstance(dataset, Dataset):
         datasets = [dataset]
     else:
-        datasets = list(dataset.keys())
+        datasets = list(dataset.values())
 
     for ds in datasets:
         for ex in ds:
