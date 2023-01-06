@@ -1,18 +1,19 @@
 [tool.poetry]
-name = "python-template"
+name = "transformer-smaller-training-vocab"
 version = "0.1.0"
-description = "Python template with opinionated setup of my personal preferences."
+description = "Temporary remove unused tokens during training to save ram and speed."
 authors = ["Benedikt Fuchs <benedikt.fuchs.staw@hotmail.com>"]
 license = "MIT"
 readme = "README.md"
-packages = [{ include = "python_template" }]
-repository = "https://github.com/helpmefindaname/python-template"
-
-[tool.poetry.scripts]
-python_template = "python_template.cli:main"
+packages = [{ include = "transformer_smaller_training_vocab" }]
+repository = "https://github.com/helpmefindaname/transformer-smaller-training-vocab"
 
 [tool.poetry.dependencies]
 python = "^3.7"
+datasets = "^2.8.0"
+transformers = "^4.25.1"
+torch = "^1.13.1"
+sentencepiece = "^0.1.97"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^7.2.0"
@@ -21,6 +22,7 @@ black = "^22.12.0"
 ruff = "^0.0.205"
 pytest-github-actions-annotate-failures = "^0.1.8"
 pytest-xdist = "^3.1.0"
+pytest-cov = "^4.0.0"
 
 [build-system]
 requires = ["poetry-core"]
@@ -40,7 +42,8 @@ target-version = 'py310'
 addopts = "--mypy -n auto"
 filterwarnings = [
     "error",
-    "ignore:SelectableGroups dict interface is deprecated. Use select."
+    "ignore:SelectableGroups dict interface is deprecated. Use select.",
+    'ignore:distutils Version classes are deprecated. Use packaging.version instead.', # numpy uses deprecated version check
 ]  # Convert all warnings to errors, imo warnings that are not treated as errors will be ignored by most people.
 # My approach is to throw an error and let the programmar check if the error is intended (then add it to the filterwarnings) or not (then fix it!)
 

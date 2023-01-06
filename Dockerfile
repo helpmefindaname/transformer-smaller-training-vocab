@@ -1,5 +1,5 @@
 # todo: use multistage build to only use what is required at the end.
-FROM python:3.10.1
+FROM python:3.9
 ARG BUILD=prod
 ARG BUILD_VERSION=0.1.0
 ENV POETRY_VERSION=1.3.1
