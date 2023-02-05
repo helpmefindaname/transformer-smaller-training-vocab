@@ -32,7 +32,7 @@ If you want to use a tokenizer that is not on the list, please [create an issue]
 
 ### Requirements and Installation
 
-The project is based on Transformers 4.0.0+, PyTorch 1.0+ and Python 3.7+
+The project is based on Transformers 4.1.0+, PyTorch 1.8+ and Python 3.7+
 Then, in your favorite virtual environment, simply run:
 
 ```
