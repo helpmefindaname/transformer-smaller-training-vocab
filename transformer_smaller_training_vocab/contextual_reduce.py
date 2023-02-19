@@ -1,6 +1,7 @@
 from contextlib import contextmanager
 from typing import Union, Optional, Sequence, Iterator
 
+from torch.optim import Optimizer
 from transformers import PreTrainedTokenizer, PreTrainedModel
 from transformers.tokenization_utils_base import TextInput, PreTokenizedInput, TextInputPair, PreTokenizedInputPair
 
@@ -16,6 +17,7 @@ def reduce_train_vocab(
     tokenizer: PreTrainedTokenizer,
     texts: Sequence[Union[TextInput, PreTokenizedInput, TextInputPair, PreTokenizedInputPair]],
     empty_cuda_cache: Optional[bool] = None,
+    optimizer: Optional[Optimizer] = None,
 ) -> Iterator[None]:
     if empty_cuda_cache is None:
         empty_cuda_cache = model.device.type == "cuda"
@@ -25,7 +27,7 @@ def reduce_train_vocab(
     logger.debug(f"Gathering token statistics for tokenizer {type(tokenizer)}")
     used_tokens = get_token_stats(tokenizer, texts)
     logger.info(f"Gathered {len(used_tokens)} of total {tokenizer.vocab_size}")
-    saved_embeddings = reduce_embedding(model, used_tokens)
+    saved_embeddings = reduce_embedding(model, used_tokens, optimizer=optimizer, empty_cuda_cache=empty_cuda_cache)
     logger.debug(f"Reduced embedding size for model {type(model)}")
     saved_vocab = reduce_tokenizer(tokenizer, used_tokens)
     logger.debug(f"Reduced tokenizer vocab {type(tokenizer)}")
