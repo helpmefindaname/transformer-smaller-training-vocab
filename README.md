@@ -89,5 +89,32 @@ Here is a table to document how much impact this technique has on training:
 | [bert-large-uncased](https://huggingface.co/roberta-base) | CONLL 03 (en) | 47.62% | 04.44% |
 | [roberta-base](https://huggingface.co/roberta-base) | CONLL 03 (en) | 58.39% | 18.08% |
 | [roberta-large](https://huggingface.co/roberta-large) | CONLL 03 (en) | 58.39% | 08.45% |
+| [bert-base-cased](https://huggingface.co/bert-base-cased) | cola | 77.665885% | 15.968120% |
+| [roberta-base](https://huggingface.co/roberta-base) | cola | 86.081767% | 26.659724% |
+| [xlm-roberta-base](https://huggingface.co/xlm-roberta-base) | cola | 97.785618% | 67.524955% |
+| [bert-base-cased](https://huggingface.co/bert-base-cased) | mnli | 10.935991% | 2.248426% |
+| [roberta-base](https://huggingface.co/roberta-base) | mnli | 14.781657% | 4.577886% |
+| [xlm-roberta-base](https://huggingface.co/xlm-roberta-base) | mnli | 88.833689% | 61.343114% |
+| [bert-base-cased](https://huggingface.co/bert-base-cased) | mrpc | 49.934474% | 10.266537% |
+| [roberta-base](https://huggingface.co/roberta-base) | mrpc | 64.024669% | 19.828590% |
+| [xlm-roberta-base](https://huggingface.co/xlm-roberta-base) | mrpc | 94.876841% | 65.516327% |
+| [bert-base-cased](https://huggingface.co/bert-base-cased) | qnli | 8.618430% | 1.771951% |
+| [roberta-base](https://huggingface.co/roberta-base) | qnli | 17.640505% | 5.463306% |
+| [xlm-roberta-base](https://huggingface.co/xlm-roberta-base) | qnli | 87.566499% | 60.468238% |
+| [bert-base-cased](https://huggingface.co/bert-base-cased) | qqp | 7.690716% | 1.581213% |
+| [roberta-base](https://huggingface.co/roberta-base) | qqp | 5.908684% | 1.829933% |
+| [xlm-roberta-base](https://huggingface.co/xlm-roberta-base) | qqp | 85.404117% | 58.975024% |
+| [bert-base-cased](https://huggingface.co/bert-base-cased) | rte | 34.677197% | 7.129638% |
+| [roberta-base](https://huggingface.co/roberta-base) | rte | 50.492390% | 15.637611% |
+| [xlm-roberta-base](https://huggingface.co/xlm-roberta-base) | rte | 93.096055% | 64.286621% |
+| [bert-base-cased](https://huggingface.co/bert-base-cased) | sst2 | 62.391364% | 12.827676% |
+| [roberta-base](https://huggingface.co/roberta-base) | sst2 | 68.600418% | 21.245710% |
+| [xlm-roberta-base](https://huggingface.co/xlm-roberta-base) | sst2 | 96.253630% | 66.467055% |
+| [bert-base-cased](https://huggingface.co/bert-base-cased) | stsb | 51.345013% | 10.556619% |
+| [roberta-base](https://huggingface.co/roberta-base) | stsb | 64.366856% | 19.934689% |
+| [xlm-roberta-base](https://huggingface.co/xlm-roberta-base) | stsb | 94.881241% | 65.519546% |
+| [bert-base-cased](https://huggingface.co/bert-base-cased) | wnli | 93.657746% | 19.256050% |
+| [roberta-base](https://huggingface.co/roberta-base) | wnli | 96.033025% | 29.741652% |
+| [xlm-roberta-base](https://huggingface.co/xlm-roberta-base) | wnli | 99.253206% | 68.538385% |
 
 Notice that while those reduced embeddings imply slightly less computation effort, those gains are neglectable, as the gradient computation for the parameters of transformer layers are dominant.
