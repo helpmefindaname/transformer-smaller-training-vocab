@@ -38,6 +38,7 @@ def reduce_embedding(
     )
     model.set_input_embeddings(new_input_embedding)
     model.get_input_embeddings().to(model_device)
+    model.config.vocab_size = keep_embedding_weights.size(0)
     if found_param_group is not None:
         found_param_group["params"].extend(model.get_input_embeddings().parameters())
 

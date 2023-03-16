@@ -1,4 +1,5 @@
 import importlib
+import tempfile
 
 import pytest
 import torch
@@ -56,3 +57,23 @@ def test_reduction_works():
 
     with reduce_train_vocab(model=model, tokenizer=tokenizer, texts=texts):
         pass
+
+
+def test_saving_while_reduction_can_be_loaded_afterwards():
+    model_name = "distilbert-base-uncased"
+
+    model = AutoModel.from_pretrained(model_name)
+    tokenizer = AutoTokenizer.from_pretrained(model_name)
+    texts = [
+        "I live in Vienna",
+        "Home sweet home",
+        "ay ay ay",
+    ]
+    with tempfile.TemporaryDirectory() as tdir:
+        with reduce_train_vocab(model=model, tokenizer=tokenizer, texts=texts):
+            model.save_pretrained(tdir)
+            tokenizer.save_pretrained(tdir)
+        new_model = AutoModel.from_pretrained(tdir)
+        new_tokenizer = AutoTokenizer.from_pretrained(tdir)
+        assert new_model.config.vocab_size == 13
+        assert len(new_tokenizer) == 13
