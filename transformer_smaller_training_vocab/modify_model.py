@@ -26,16 +26,14 @@ def reduce_embedding(
 
     if found_param_group is not None:
         del found_param_group["params"][param_group_idx]
-
+    freeze = not model.get_input_embeddings().weight.requires_grad
     embedding_weights: torch.Tensor = model.get_input_embeddings().weight.detach().cpu()
     model.get_input_embeddings().__delattr__("weight")
     if empty_cuda_cache:
         torch.cuda.empty_cache()
     keep_tensor = torch.LongTensor(keep_token_ids)
     keep_embedding_weights = embedding_weights[keep_tensor]
-    new_input_embedding = nn.Embedding(
-        keep_embedding_weights.size(0), keep_embedding_weights.size(1), _weight=keep_embedding_weights
-    )
+    new_input_embedding = nn.Embedding.from_pretrained(keep_embedding_weights, freeze=freeze)
     model.set_input_embeddings(new_input_embedding)
     model.get_input_embeddings().to(model_device)
     model.config.vocab_size = keep_embedding_weights.size(0)
