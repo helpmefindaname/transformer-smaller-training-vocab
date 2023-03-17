@@ -33,8 +33,8 @@ def reduce_embedding(
         torch.cuda.empty_cache()
     keep_tensor = torch.LongTensor(keep_token_ids)
     keep_embedding_weights = embedding_weights[keep_tensor]
-    new_input_embedding = nn.Embedding.from_pretrained(keep_embedding_weights, freeze=freeze)
-    model.set_input_embeddings(new_input_embedding)
+    new_in_emb = nn.Embedding.from_pretrained(keep_embedding_weights, freeze=freeze)  # type: ignore[no-untyped-call]
+    model.set_input_embeddings(new_in_emb)
     model.get_input_embeddings().to(model_device)
     model.config.vocab_size = keep_embedding_weights.size(0)
     if found_param_group is not None:
