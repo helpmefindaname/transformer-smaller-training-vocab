@@ -41,10 +41,10 @@ def assert_reduction_and_creation_works(tokenizer: PreTrainedTokenizer, texts: L
     saved_vocab = reduce_tokenizer(tokenizer, used_tokens)
 
     reduced_input_ids = tokenizer(texts)["input_ids"]
-    recovered_input_ids = [[used_tokens[i] for i in input_ids] for input_ids in reduced_input_ids]
     assert all(
         all(i < n for i in input_ids) for input_ids in reduced_input_ids
     ), "All reduced input ids need to be part of the vocabulary"
+    recovered_input_ids = [[used_tokens[i] for i in input_ids] for input_ids in reduced_input_ids]
     reduced_token_texts = [tokenizer.convert_ids_to_tokens(input_ids) for input_ids in reduced_input_ids]
 
     assert (
@@ -93,6 +93,30 @@ def test_tokenizer_is_not_supported_yet(model_name) -> None:
     tokenizer = AutoTokenizer.from_pretrained(model_name, use_fast=False)
     with pytest.raises(ValueError):
         get_set_vocab_function(type(tokenizer))
+
+
+@pytest.mark.parametrize("model_name, tokenizer_type", fast_model_names)
+def test_fast_tokenizer_handles_special_tokens(model_name: str, tokenizer_type: str) -> None:
+    texts = [
+        "[FLERT] I live in Vienna [FLERT] Home sweet home",
+    ]
+    tokenizer: PreTrainedTokenizerFast = AutoTokenizer.from_pretrained(model_name, use_fast=True)
+    tokenizer.add_special_tokens({"additional_special_tokens": ["[FLERT]"]})
+    tokenizer_json = json.loads(tokenizer.backend_tokenizer.to_str())
+    tokenizer_model_type = tokenizer_json["model"]["type"]
+    assert tokenizer_model_type == tokenizer_type, f"Expected to have a tokenizer of type '{tokenizer_type}'"
+
+    assert_reduction_and_creation_works(tokenizer, texts)
+
+
+@pytest.mark.parametrize("model_name", model_names)
+def test_slow_tokenizer_handles_special_tokens(model_name: str) -> None:
+    texts = [
+        "[FLERT] I live in Vienna [FLERT] Home sweet home",
+    ]
+    tokenizer: PreTrainedTokenizer = AutoTokenizer.from_pretrained(model_name, use_fast=False)
+    tokenizer.add_special_tokens({"additional_special_tokens": ["[FLERT]"]})
+    assert_reduction_and_creation_works(tokenizer, texts)
 
 
 def test_fast_word_level_tokenizer_has_fixed_vocab():
