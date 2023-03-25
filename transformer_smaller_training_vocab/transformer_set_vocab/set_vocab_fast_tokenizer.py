@@ -49,6 +49,14 @@ def set_unigram_vocab(tokenizer_obj: Dict[str, Any], vocab: Dict[str, int]) -> N
     # unigram tokenizer save scores next to the vocabulary and requires other tokens for intermediate tokenization.
     # hence we don't delete tokens, but reorder them, so that the ids fit the requirement.
     n = len(vocab)
+
+    # special tokens will be added to the end (and therefore have a wrong id)
+    # if they are not explicitely also in the vocab.
+    registered_tokens = {token for token, _ in tokenizer_obj["model"]["vocab"]}
+    for special_token in tokenizer_obj["added_tokens"]:
+        if special_token["content"] not in registered_tokens:
+            tokenizer_obj["model"]["vocab"].append((special_token["content"], 0.0))
+
     tokenizer_obj["model"]["vocab"] = sorted(tokenizer_obj["model"]["vocab"], key=lambda x: vocab.get(x[0], n))
 
 
