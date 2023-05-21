@@ -1,8 +1,8 @@
 import itertools
-from typing import Sequence, Union, List, Tuple, cast
+from typing import List, Sequence, Tuple, Union, cast
 
-from transformers import PreTrainedTokenizer, AutoTokenizer
-from transformers.tokenization_utils_base import TextInput, PreTokenizedInput, PreTokenizedInputPair, TextInputPair
+from transformers import AutoTokenizer, PreTrainedTokenizer
+from transformers.tokenization_utils_base import PreTokenizedInput, PreTokenizedInputPair, TextInput, TextInputPair
 
 from transformer_smaller_training_vocab.token_stats import get_token_stats
 

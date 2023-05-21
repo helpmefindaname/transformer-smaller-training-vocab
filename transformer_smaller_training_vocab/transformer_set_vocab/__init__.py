@@ -4,7 +4,6 @@ from transformer_smaller_training_vocab.transformer_set_vocab.set_vocab_fast_tok
 from transformer_smaller_training_vocab.transformer_set_vocab.set_vocab_roberta import set_roberta_vocab
 from transformer_smaller_training_vocab.transformer_set_vocab.set_vocab_xlm_roberta import set_xlm_roberta_vocab
 
-
 __all__ = [
     "register_set_vocab",
     "set_vocab",

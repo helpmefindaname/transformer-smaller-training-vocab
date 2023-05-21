@@ -41,8 +41,6 @@ jobs:
           cache: 'poetry'
       - name: Install Dependencies
         run: poetry install
-      - name: Run linter
-        run: poetry run ruff .
       - name: Run tests
         run: poetry run pytest -vv
   build-n-publish:

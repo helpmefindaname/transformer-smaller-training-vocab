@@ -1,4 +1,4 @@
-from typing import Type, TypeVar, Dict, Callable
+from typing import Callable, Dict, Type, TypeVar
 
 from transformers import PreTrainedTokenizer
 

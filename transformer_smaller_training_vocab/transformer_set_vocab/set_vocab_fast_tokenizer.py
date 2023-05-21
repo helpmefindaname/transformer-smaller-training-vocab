@@ -1,11 +1,10 @@
 import json
-from typing import Dict, Callable, Any
+from typing import Any, Callable, Dict
 
 from tokenizers import Tokenizer
 from transformers import PreTrainedTokenizerFast
 
 from transformer_smaller_training_vocab.transformer_set_vocab.auto_set_vocab import register_set_vocab
-
 
 SET_VOCAB_FUNCTION = Callable[[Dict[str, Any], Dict[str, int]], None]
 
@@ -77,7 +76,7 @@ def set_bpe_vocab(tokenizer_obj: Dict[str, Any], vocab: Dict[str, int]) -> None:
     old_vocab = tokenizer_obj["model"]["vocab"]
 
     new_vocab = vocab
-    for k in old_vocab.keys():
+    for k in old_vocab:
         if k not in new_vocab:
             new_vocab[k] = len(new_vocab)
 

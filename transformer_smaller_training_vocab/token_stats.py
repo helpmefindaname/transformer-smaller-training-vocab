@@ -1,7 +1,7 @@
-from typing import Union, List, Sequence
+from typing import List, Sequence, Union
 
 from transformers import PreTrainedTokenizer
-from transformers.tokenization_utils_base import TextInput, PreTokenizedInput, TextInputPair, PreTokenizedInputPair
+from transformers.tokenization_utils_base import PreTokenizedInput, PreTokenizedInputPair, TextInput, TextInputPair
 
 
 def get_token_stats(

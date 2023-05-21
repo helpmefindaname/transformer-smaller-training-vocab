@@ -6,7 +6,7 @@ from tokenizers import Tokenizer
 from tokenizers.models import WordLevel
 from transformers import AutoTokenizer, PreTrainedTokenizer, PreTrainedTokenizerFast
 
-from transformer_smaller_training_vocab.modify_tokenizer import reduce_tokenizer, recreate_tokenizer
+from transformer_smaller_training_vocab.modify_tokenizer import recreate_tokenizer, reduce_tokenizer
 from transformer_smaller_training_vocab.token_stats import get_token_stats
 from transformer_smaller_training_vocab.transformer_set_vocab.auto_set_vocab import get_set_vocab_function
 
