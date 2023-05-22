@@ -16,7 +16,7 @@ build:
       - poetry config virtualenvs.create false
     post_install:
       - ln -s $READTHEDOCS_VIRTUALENV_PATH .venv
-      - poetry install --sync
+      - poetry install
 
 # Build documentation in the docs/ directory with Sphinx
 sphinx:
