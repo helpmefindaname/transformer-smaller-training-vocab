@@ -26,6 +26,13 @@ pytest-cov = "^4.0.0"
 pytest-ruff = "^0.0.6"
 pytest-black-ng = "^0.4.1"
 
+
+[tool.poetry.group.docs.dependencies]
+sphinx-github-style = "^1.0.2"
+sphinx-autodoc-typehints = "^1.23.0"
+myst-parser = "^1.0.0"
+sphinx = "<6.0.0"
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
