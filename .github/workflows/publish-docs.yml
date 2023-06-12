@@ -1,7 +1,7 @@
 name: 'Run tests for ci cd'
 on:
   push:
-    branches: [ main, sphinx-multiversioning ]
+    branches: [ main ]
     tags:
       - "*"
 
