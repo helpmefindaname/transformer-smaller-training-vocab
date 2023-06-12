@@ -1,7 +1,9 @@
 # noqa: INP001
 
-import importlib_metadata
 import re
+
+import importlib_metadata
+
 # -- Project information -----------------------------------------------------
 
 project = "transformer-smaller-training-vocab"
@@ -16,7 +18,6 @@ top_level = project.replace("-", "_")
 # get the url on a hacky way, TODO: think of a better way
 linkcode_url = importlib_metadata.metadata(project)["Project-URL"].split(" ")[-1]
 
-
 # -- General configuration ---------------------------------------------------
 
 # Add any Sphinx extension module names here, as strings. They can be
@@ -30,7 +31,7 @@ extensions = [
     "sphinx.ext.napoleon",  # to render Google format docstrings
     "sphinx.ext.githubpages",
     "myst_parser",
-    "sphinx_github_style",
+    # "sphinx_github_style",
     "sphinx_autodoc_typehints",
     "sphinx_multiversion",
 ]
@@ -45,7 +46,6 @@ scv_whitelist_branches = (re.compile("^(master|main)$"),)
 scv_grm_exclude = ("README.md", ".gitignore", ".nojekyll", "CNAME")
 scv_greatest_tag = True
 
-
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]
 
@@ -59,7 +59,7 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = "sphinx_rtd_theme"
+html_theme = "pydata_sphinx_theme"
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
@@ -75,10 +75,30 @@ source_suffix = {
     ".md": "markdown",
 }
 
-templates_path = [
-    "_templates",
-]
+html_sidebars = {
+    "**": [
+        "localtoc.html",
+        "searchbox.html",
+        "versioning.html",
+    ]
+}
 
-html_sidebars = [
-    "versioning.html",
-]
+smv_latest_version = importlib_metadata.version(project)
+
+# Whitelist pattern for tags (set to None to ignore all tags)
+smv_tag_whitelist = r"^\d+\.\d+\.\d+$"
+
+# Whitelist pattern for branches (set to None to ignore all branches)
+smv_branch_whitelist = r"^main|master$"
+
+# Whitelist pattern for remotes (set to None to use local branches only)
+smv_remote_whitelist = r"^main|master$"
+
+# Pattern for released versions
+smv_released_pattern = r"^refs/tags/\d+\.\d+\.\d+$"
+
+# Format for versioned output directories inside the build directory
+smv_outputdir_format = "{ref.name}"
+
+# Determines whether remote or local git branches/tags are preferred if their output dirs conflict
+smv_prefer_remote_refs = False
