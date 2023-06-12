@@ -1,7 +1,4 @@
 # noqa: INP001
-
-import re
-
 import importlib_metadata
 
 # -- Project information -----------------------------------------------------
@@ -31,20 +28,11 @@ extensions = [
     "sphinx.ext.napoleon",  # to render Google format docstrings
     "sphinx.ext.githubpages",
     "myst_parser",
-    # "sphinx_github_style",
+    "sphinx_github_style",
     "sphinx_autodoc_typehints",
     "sphinx_multiversion",
 ]
 
-# Sphinxcontrib configuration
-scv_priority = "tags"
-scv_show_banner = True
-scv_banner_greatest_tag = True
-scv_sort = ("semver",)
-scv_whitelist_branches = (re.compile("^(master|main)$"),)
-# scv_whitelist_tags = ('None',)
-scv_grm_exclude = ("README.md", ".gitignore", ".nojekyll", "CNAME")
-scv_greatest_tag = True
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]
