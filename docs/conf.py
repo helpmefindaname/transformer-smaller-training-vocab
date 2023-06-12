@@ -1,10 +1,9 @@
 # noqa: INP001
-from tempfile import gettempdir
 
 import importlib_metadata
-from pathlib import Path
 
 # -- Project information -----------------------------------------------------
+from sphinx_github_style import get_linkcode_resolve
 
 project = "transformer-smaller-training-vocab"
 copyright = "2023, Benedikt Fuchs"
@@ -15,17 +14,19 @@ version = importlib_metadata.version(project)
 release = importlib_metadata.version(project)
 top_level = project.replace("-", "_")
 
-git_tag = "main"
-current_path = Path(__file__).resolve()
-if Path(gettempdir()) in current_path.parents:
-    git_tag = current_path.parents[2].name
-
-html_context = {
-    "github_version": git_tag
-}
-
 # get the url on a hacky way, TODO: think of a better way
 linkcode_url = importlib_metadata.metadata(project)["Project-URL"].split(" ")[-1]
+
+
+smv_current_version = ""  # will by overwritten by sphinx-multi-version to the name of the tag or branch.
+html_context = {"github_version": ""}  # dummy value that sphinx-github-style won't crash when run in temp folder.
+
+
+def linkcode_resolve(*args):
+    # use smv_current_version as the git url
+    real_linkcode_url = linkcode_url + f"/blob/{smv_current_version}/" + "{filepath}#L{linestart}-L{linestop}"
+    return get_linkcode_resolve(real_linkcode_url)(*args)
+
 
 # -- General configuration ---------------------------------------------------
 # Add any Sphinx extension module names here, as strings. They can be
