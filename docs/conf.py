@@ -1,5 +1,8 @@
 # noqa: INP001
+from tempfile import gettempdir
+
 import importlib_metadata
+from pathlib import Path
 
 # -- Project information -----------------------------------------------------
 
@@ -12,11 +15,19 @@ version = importlib_metadata.version(project)
 release = importlib_metadata.version(project)
 top_level = project.replace("-", "_")
 
+git_tag = "main"
+current_path = Path(__file__).resolve()
+if Path(gettempdir()) in current_path.parents:
+    git_tag = current_path.parents[2].name
+
+html_context = {
+    "github_version": git_tag
+}
+
 # get the url on a hacky way, TODO: think of a better way
 linkcode_url = importlib_metadata.metadata(project)["Project-URL"].split(" ")[-1]
 
 # -- General configuration ---------------------------------------------------
-
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
