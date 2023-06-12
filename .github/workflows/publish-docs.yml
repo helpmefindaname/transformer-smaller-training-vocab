@@ -24,6 +24,8 @@ jobs:
         with:
           python-version: ${{ env.python-version }}
           cache: 'poetry'
+      - name: Fetch git tags
+        run: git fetch --tags origin
       - name: Install Dependencies
         run: poetry install
       - name: Build docs
