@@ -32,6 +32,7 @@ extensions = [
     "myst_parser",
     "sphinx_github_style",
     "sphinx_autodoc_typehints",
+    "sphinx_multiversion",
 ]
 
 # Sphinxcontrib configuration
@@ -73,3 +74,11 @@ source_suffix = {
     ".rst": "restructuredtext",
     ".md": "markdown",
 }
+
+templates_path = [
+    "_templates",
+]
+
+html_sidebars = [
+    "versioning.html",
+]

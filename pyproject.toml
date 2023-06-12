@@ -34,6 +34,7 @@ myst-parser = "^1.0.0"
 sphinx = "<6.0.0"
 importlib-metadata = "^6.6.0"
 sphinx-rtd-theme = "^1.2.0"
+sphinx-multiversion = "^0.2.4"
 
 [build-system]
 requires = ["poetry-core"]
