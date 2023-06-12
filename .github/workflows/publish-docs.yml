@@ -32,7 +32,7 @@ jobs:
       - name: Add redirect to stable doc
         run: |
           cp assets/redirect.html doc_build/index.html
-          sed -i 's/[VERSION]/0.2.4/g' doc_build/index.html
+          sed -i 's/[VERSION]/($poetry version -s)/g' doc_build/index.html
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
