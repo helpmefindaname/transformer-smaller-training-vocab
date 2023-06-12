@@ -26,8 +26,6 @@ jobs:
           cache: 'poetry'
       - name: Fetch git tags
         run: git fetch --tags origin
-      - name: Fetch main branch
-        run: git fetch origin main:main
       - name: Install Dependencies
         run: poetry install
       - name: Build docs
