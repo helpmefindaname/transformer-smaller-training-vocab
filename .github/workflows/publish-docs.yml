@@ -35,7 +35,7 @@ jobs:
         run: |
           cp assets/redirect.html doc_build/index.html
           cp assets/README.md doc_build/README.md
-          sed -i 's/\[VERSION\]/$(poetry version -s)/g' doc_build/index.html
+          sed -i "s/\[VERSION\]/$(poetry version -s)/g" doc_build/index.html
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
