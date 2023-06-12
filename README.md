@@ -4,6 +4,8 @@
 [![GitHub Issues](https://img.shields.io/github/issues/helpmefindaname/transformer-smaller-training-vocab.svg)](https://github.com/helpmefindaname/transformer-smaller-training-vocab/issues)
 [![License: MIT](https://img.shields.io/badge/License-MIT-brightgreen.svg)](https://opensource.org/licenses/MIT)
 
+**Docs** are available [here](https://helpmefindaname.github.io/transformer-smaller-training-vocab)
+
 ## Motivation
 
 Have you ever trained a transformer model and noticed that most tokens in the vocab are not used?
