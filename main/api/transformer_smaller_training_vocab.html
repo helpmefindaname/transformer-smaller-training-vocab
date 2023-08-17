@@ -7,7 +7,7 @@
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
     <title>transformer_smaller_training_vocab &#8212; transformer-smaller-training-vocab 0.2.4 documentation</title>
   
@@ -362,14 +362,18 @@ document.write(`
 <span id="transformer-smaller-training-vocab"></span><h1>transformer_smaller_training_vocab<a class="headerlink" href="#module-transformer_smaller_training_vocab" title="Permalink to this heading">#</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="transformer_smaller_training_vocab.get_texts_from_dataset">
-<span class="sig-prename descclassname"><span class="pre">transformer_smaller_training_vocab.</span></span><span class="sig-name descname"><span class="pre">get_texts_from_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/helpmefindaname/transformer-smaller-training-vocab/blob/main/transformer_smaller_training_vocab/utils.py#L7-L29"><span class="linkcode-link"><span class="pre">View</span> <span class="pre">on</span> <span class="pre">GitHub</span></span></a><a class="headerlink" href="#transformer_smaller_training_vocab.get_texts_from_dataset" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">transformer_smaller_training_vocab.</span></span><span class="sig-name descname"><span class="pre">get_texts_from_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/helpmefindaname/transformer-smaller-training-vocab/blob/main/transformer_smaller_training_vocab/utils.py#L13-L40"><span class="linkcode-link"><span class="pre">View</span> <span class="pre">on</span> <span class="pre">GitHub</span></span></a><a class="headerlink" href="#transformer_smaller_training_vocab.get_texts_from_dataset" title="Permalink to this definition">#</a></dt>
 <dd><p>Extract the texts of a dataset given their keys.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This function is only available if the <cite>datasets</cite>-extra is installed.</p>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>dataset</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Dataset</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">DatasetDict</span></code>]) – The huggingface dataset used for training.</p></li>
-<li><p><strong>key</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]]) – Either a simple string, being the key refering the text or a Tuple of two strings,
-refering to the keys for a text pair</p></li>
+<li><p><strong>key</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]]) – Either a simple string, being the key referring the text or a Tuple of two strings,
+referring to the keys for a text pair</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
