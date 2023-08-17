@@ -11,7 +11,7 @@ repository = "https://github.com/helpmefindaname/transformer-smaller-training-vo
 [tool.poetry.dependencies]
 python = "^3.8"
 transformers = { version = "^4.1", extras = ["torch"] }
-torch = ">=1.8.0 <3.0.0"
+torch = ">=1.8.0 <3.0.0,!=2.0.1"
 sentencepiece = "^0.1.97"
 
 [tool.poetry.group.datasets.dependencies]
