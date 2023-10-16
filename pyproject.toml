@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "transformer-smaller-training-vocab"
-version = "0.3.1"
+version = "0.3.2"
 description = "Temporary remove unused tokens during training to save ram and speed."
 authors = ["Benedikt Fuchs <benedikt.fuchs.staw@hotmail.com>"]
 license = "MIT"
