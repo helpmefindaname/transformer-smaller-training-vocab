@@ -69,6 +69,7 @@ def test_saving_while_reduction_can_be_loaded_afterwards():
         "Home sweet home",
         "ay ay ay",
     ]
+    initial_vocab_size = model.config.vocab_size
     with tempfile.TemporaryDirectory() as tdir:
         with reduce_train_vocab(model=model, tokenizer=tokenizer, texts=texts):
             model.save_pretrained(tdir)
@@ -77,3 +78,5 @@ def test_saving_while_reduction_can_be_loaded_afterwards():
         new_tokenizer = AutoTokenizer.from_pretrained(tdir)
         assert new_model.config.vocab_size == 13
         assert len(new_tokenizer) == 13
+    assert model.config.vocab_size == initial_vocab_size
+    assert len(tokenizer) == initial_vocab_size

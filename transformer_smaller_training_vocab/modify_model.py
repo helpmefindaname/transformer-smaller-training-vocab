@@ -54,5 +54,6 @@ def recreate_embedding(
     for reduced_id, full_id in enumerate(keep_token_ids):
         saved_embeddings[full_id] = embedding_weights[reduced_id]
     new_input_embedding = nn.Embedding(saved_embeddings.size(0), saved_embeddings.size(1), _weight=saved_embeddings)
+    model.config.vocab_size = saved_embeddings.size(0)
     model.set_input_embeddings(new_input_embedding)
     model.get_input_embeddings().to(model_device)
