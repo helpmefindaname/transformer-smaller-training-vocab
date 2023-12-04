@@ -79,3 +79,4 @@ def test_saving_while_reduction_can_be_loaded_afterwards():
         assert new_model.config.vocab_size == 13
         assert len(new_tokenizer) == 13
     assert model.config.vocab_size == initial_vocab_size
+    assert len(tokenizer) == initial_vocab_size
