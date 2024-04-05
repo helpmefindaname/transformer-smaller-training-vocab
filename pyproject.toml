@@ -10,9 +10,12 @@ repository = "https://github.com/helpmefindaname/transformer-smaller-training-vo
 
 [tool.poetry.dependencies]
 python = "^3.8"
-transformers = { version = "^4.1", extras = ["torch"] }
+transformers = { version = "^4.1", extras = ["torch", "sentencepiece"] }
 torch = ">=1.8.0,<3.0.0,!=2.0.1"
-sentencepiece = "^0.1.97"
+numpy = [
+    {version = "<1.25.0", python = ">=3.8,<3.9"},  # the newer versions do not ship python 3.8 wheels, hence we restrict it
+    {version = "^1.21.0", python = ">=3.9"}
+]
 
 [tool.poetry.group.datasets.dependencies]
 datasets = "^2.0.0"
@@ -45,12 +48,12 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.black]
 line-length = 120
-target-version = ['py37']
+target-version = ['py38']
 
 
 [tool.ruff]
 line-length = 120
-target-version = 'py37'
+target-version = 'py38'
 
 select = [
   "C4",
