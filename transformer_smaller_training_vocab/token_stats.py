@@ -8,8 +8,7 @@ def get_token_stats(
     tokenizer: PreTrainedTokenizer,
     texts: Sequence[Union[TextInput, PreTokenizedInput, TextInputPair, PreTokenizedInputPair]],
 ) -> List[int]:
-    used = set()
-    used.update(tokenizer.all_special_ids)
+    used = {token_id for token_id, token in tokenizer.added_tokens_decoder.items() if token.special}
     for text in texts:
         if isinstance(text, tuple):
             encoding = tokenizer(text[0], text[1], is_split_into_words=isinstance(text[0], list))
