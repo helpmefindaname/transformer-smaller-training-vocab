@@ -35,8 +35,6 @@ def set_fast_tokenizer_vocab(tokenizer: PreTrainedTokenizerFast, vocab: Dict[str
 
 def fix_special_tokens(tokenizer_obj: Dict[str, Any], vocab: Dict[str, int]) -> None:
     for special_token in tokenizer_obj["added_tokens"]:
-        if special_token["content"] not in vocab:
-            continue
         special_token["id"] = vocab[special_token["content"]]
     post_obj = tokenizer_obj["post_processor"]
     if post_obj is None or "special_tokens" not in post_obj:
