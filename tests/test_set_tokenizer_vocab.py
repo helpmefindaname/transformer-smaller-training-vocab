@@ -20,6 +20,7 @@ fast_model_names = [
     ("microsoft/layoutlm-large-uncased", "WordPiece"),
     ("microsoft/layoutlm-base-cased", "BPE"),
     ("xlm-roberta-large", "Unigram"),
+    ("sentence-transformers/all-mpnet-base-v2", "WordPiece"),
 ]
 unsupported_tokenizers = ["google/electra-small-discriminator"]
 
