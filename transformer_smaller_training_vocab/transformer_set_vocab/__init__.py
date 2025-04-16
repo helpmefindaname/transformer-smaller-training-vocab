@@ -6,9 +6,9 @@ from transformer_smaller_training_vocab.transformer_set_vocab.set_vocab_xlm_robe
 
 __all__ = [
     "register_set_vocab",
-    "set_vocab",
-    "set_xlm_roberta_vocab",
-    "set_roberta_vocab",
     "set_bert_vocab",
     "set_fast_tokenizer_vocab",
+    "set_roberta_vocab",
+    "set_vocab",
+    "set_xlm_roberta_vocab",
 ]

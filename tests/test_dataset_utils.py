@@ -1,4 +1,4 @@
-from typing import Any, Dict
+from typing import Any
 
 from datasets import load_dataset
 
@@ -8,7 +8,7 @@ from transformer_smaller_training_vocab import get_texts_from_dataset
 def test_cola_dataset():
     count = 100
 
-    def filter_by_id(example: Dict[str, Any]) -> bool:
+    def filter_by_id(example: dict[str, Any]) -> bool:
         return example["idx"] < count
 
     dataset = load_dataset("glue", "cola").filter(filter_by_id)
@@ -35,11 +35,11 @@ def test_ax_dataset():
 def test_cola_tokenized_dataset():
     count = 100
 
-    def space_tokenize(example: Dict[str, Any]) -> Dict[str, Any]:
+    def space_tokenize(example: dict[str, Any]) -> dict[str, Any]:
         example["tokens"] = example["sentence"].split()
         return example
 
-    def filter_by_id(example: Dict[str, Any]) -> bool:
+    def filter_by_id(example: dict[str, Any]) -> bool:
         return example["idx"] < count
 
     dataset = load_dataset("glue", "cola").filter(filter_by_id).map(space_tokenize)
@@ -51,7 +51,7 @@ def test_cola_tokenized_dataset():
 
 
 def test_ax_tokenized_dataset():
-    def space_tokenize(example: Dict[str, Any]) -> Dict[str, Any]:
+    def space_tokenize(example: dict[str, Any]) -> dict[str, Any]:
         example["tokens_a"] = example["premise"].split()
         example["tokens_b"] = example["hypothesis"].split()
         return example

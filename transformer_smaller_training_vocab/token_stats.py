@@ -1,4 +1,5 @@
-from typing import List, Sequence, Union
+from collections.abc import Sequence
+from typing import Union
 
 from transformers import PreTrainedTokenizer
 from transformers.tokenization_utils_base import PreTokenizedInput, PreTokenizedInputPair, TextInput, TextInputPair
@@ -7,7 +8,7 @@ from transformers.tokenization_utils_base import PreTokenizedInput, PreTokenized
 def get_token_stats(
     tokenizer: PreTrainedTokenizer,
     texts: Sequence[Union[TextInput, PreTokenizedInput, TextInputPair, PreTokenizedInputPair]],
-) -> List[int]:
+) -> list[int]:
     used = {token_id for token_id, token in tokenizer.added_tokens_decoder.items() if token.special}
     for text in texts:
         if isinstance(text, tuple):

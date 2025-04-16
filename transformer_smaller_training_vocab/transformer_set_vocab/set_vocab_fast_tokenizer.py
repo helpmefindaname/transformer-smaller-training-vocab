@@ -1,21 +1,21 @@
 import json
-from typing import Any, Callable, Dict
+from typing import Any, Callable
 
 from tokenizers import Tokenizer
 from transformers import PreTrainedTokenizerFast
 
 from transformer_smaller_training_vocab.transformer_set_vocab.auto_set_vocab import register_set_vocab
 
-SET_VOCAB_FUNCTION = Callable[[Dict[str, Any], Dict[str, int]], None]
+SET_VOCAB_FUNCTION = Callable[[dict[str, Any], dict[str, int]], None]
 
-vocab_functions: Dict[str, SET_VOCAB_FUNCTION] = {}
+vocab_functions: dict[str, SET_VOCAB_FUNCTION] = {}
 
 
 def register_vocab_function(name: str) -> Callable[[SET_VOCAB_FUNCTION], SET_VOCAB_FUNCTION]:
     def _decorator(fn: SET_VOCAB_FUNCTION) -> SET_VOCAB_FUNCTION:
         vocab_functions[name] = fn
 
-        def _inner_decorator(tokenizer_obj: Dict[str, Any], vocab: Dict[str, int]) -> None:
+        def _inner_decorator(tokenizer_obj: dict[str, Any], vocab: dict[str, int]) -> None:
             fn(tokenizer_obj, vocab)  # pragma: no cover  # coverage ignores this line
 
         return _inner_decorator
@@ -24,7 +24,7 @@ def register_vocab_function(name: str) -> Callable[[SET_VOCAB_FUNCTION], SET_VOC
 
 
 @register_set_vocab(PreTrainedTokenizerFast)
-def set_fast_tokenizer_vocab(tokenizer: PreTrainedTokenizerFast, vocab: Dict[str, int]) -> None:
+def set_fast_tokenizer_vocab(tokenizer: PreTrainedTokenizerFast, vocab: dict[str, int]) -> None:
 
     tokenizer_obj = json.loads(tokenizer.backend_tokenizer.to_str())
     fix_special_tokens(tokenizer_obj, vocab)
@@ -33,7 +33,7 @@ def set_fast_tokenizer_vocab(tokenizer: PreTrainedTokenizerFast, vocab: Dict[str
     tokenizer._tokenizer = Tokenizer.from_str(json_data)
 
 
-def fix_special_tokens(tokenizer_obj: Dict[str, Any], vocab: Dict[str, int]) -> None:
+def fix_special_tokens(tokenizer_obj: dict[str, Any], vocab: dict[str, int]) -> None:
     for special_token in tokenizer_obj["added_tokens"]:
         special_token["id"] = vocab[special_token["content"]]
     post_obj = tokenizer_obj["post_processor"]
@@ -44,7 +44,7 @@ def fix_special_tokens(tokenizer_obj: Dict[str, Any], vocab: Dict[str, int]) -> 
 
 
 @register_vocab_function("Unigram")
-def set_unigram_vocab(tokenizer_obj: Dict[str, Any], vocab: Dict[str, int]) -> None:
+def set_unigram_vocab(tokenizer_obj: dict[str, Any], vocab: dict[str, int]) -> None:
     # unigram tokenizer save scores next to the vocabulary and requires other tokens for intermediate tokenization.
     # hence we don't delete tokens, but reorder them, so that the ids fit the requirement.
     n = len(vocab)
@@ -60,17 +60,17 @@ def set_unigram_vocab(tokenizer_obj: Dict[str, Any], vocab: Dict[str, int]) -> N
 
 
 @register_vocab_function("WordPiece")
-def set_wordpiece_vocab(tokenizer_obj: Dict[str, Any], vocab: Dict[str, int]) -> None:
+def set_wordpiece_vocab(tokenizer_obj: dict[str, Any], vocab: dict[str, int]) -> None:
     tokenizer_obj["model"]["vocab"] = vocab
 
 
 @register_vocab_function("WordLevel")
-def set_wordlevel_vocab(tokenizer_obj: Dict[str, Any], vocab: Dict[str, int]) -> None:
+def set_wordlevel_vocab(tokenizer_obj: dict[str, Any], vocab: dict[str, int]) -> None:
     tokenizer_obj["model"]["vocab"] = vocab
 
 
 @register_vocab_function("BPE")
-def set_bpe_vocab(tokenizer_obj: Dict[str, Any], vocab: Dict[str, int]) -> None:
+def set_bpe_vocab(tokenizer_obj: dict[str, Any], vocab: dict[str, int]) -> None:
     # bpe tokenizer save merges next to the vocabulary and requires tokens for correct validation.
     # hence we don't delete tokens, but reorder them, so that the ids fit the requirement.
     old_vocab = tokenizer_obj["model"]["vocab"]

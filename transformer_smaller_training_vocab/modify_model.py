@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import Optional
 
 import torch
 from torch import nn
@@ -8,7 +8,7 @@ from transformers import PreTrainedModel
 
 def reduce_embedding(
     model: PreTrainedModel,
-    keep_token_ids: List[int],
+    keep_token_ids: list[int],
     empty_cuda_cache: bool = True,
     optimizer: Optional[Optimizer] = None,
 ) -> torch.Tensor:
@@ -44,7 +44,7 @@ def reduce_embedding(
 
 
 def recreate_embedding(
-    model: PreTrainedModel, saved_embeddings: torch.Tensor, keep_token_ids: List[int], empty_cuda_cache: bool = True
+    model: PreTrainedModel, saved_embeddings: torch.Tensor, keep_token_ids: list[int], empty_cuda_cache: bool = True
 ) -> None:
     model_device = model.device
     embedding_weights: torch.Tensor = model.get_input_embeddings().cpu().weight.detach()
