@@ -1,5 +1,6 @@
 import itertools
-from typing import List, Sequence, Tuple, Union, cast
+from collections.abc import Sequence
+from typing import Union, cast
 
 from transformers import AutoTokenizer, PreTrainedTokenizer
 from transformers.tokenization_utils_base import PreTokenizedInput, PreTokenizedInputPair, TextInput, TextInputPair
@@ -10,7 +11,7 @@ from transformer_smaller_training_vocab.token_stats import get_token_stats
 def calculate_and_assert_get_token_stats(
     tokenizer: PreTrainedTokenizer,
     texts: Sequence[Union[TextInput, PreTokenizedInput, TextInputPair, PreTokenizedInputPair]],
-) -> Tuple[List[int], List[str]]:
+) -> tuple[list[int], list[str]]:
     ids = get_token_stats(tokenizer, texts)
 
     assert len(set(ids)) == len(ids), "Ids are unique"
@@ -19,7 +20,7 @@ def calculate_and_assert_get_token_stats(
     for special_id in tokenizer.all_special_ids:
         assert special_id in ids, "Expect to keep all special tokens"
 
-    tokens = cast(List[str], tokenizer.convert_ids_to_tokens(ids))
+    tokens = cast(list[str], tokenizer.convert_ids_to_tokens(ids))
     assert len(set(tokens)) == len(tokens), "Tokens are unique"
 
     return ids, tokens

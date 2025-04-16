@@ -1,5 +1,4 @@
 import json
-from typing import List
 
 import pytest
 from tokenizers import Tokenizer
@@ -25,7 +24,7 @@ fast_model_names = [
 unsupported_tokenizers = ["google/electra-small-discriminator"]
 
 
-def assert_reduction_and_creation_works(tokenizer: PreTrainedTokenizer, texts: List[str]) -> None:
+def assert_reduction_and_creation_works(tokenizer: PreTrainedTokenizer, texts: list[str]) -> None:
     used_tokens = get_token_stats(tokenizer, texts)
     n = len(used_tokens)
 

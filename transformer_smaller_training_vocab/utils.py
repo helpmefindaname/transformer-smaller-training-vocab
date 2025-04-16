@@ -1,4 +1,5 @@
-from typing import Dict, Iterator, List, Tuple, Union, cast
+from collections.abc import Iterator
+from typing import Union, cast
 
 from transformers import is_datasets_available, requires_backends
 from transformers.tokenization_utils_base import PreTokenizedInput, PreTokenizedInputPair, TextInput, TextInputPair
@@ -11,7 +12,7 @@ else:
 
 
 def get_texts_from_dataset(
-    dataset: Union[Dataset, DatasetDict], key: Union[str, Tuple[str, str]]
+    dataset: Union[Dataset, DatasetDict], key: Union[str, tuple[str, str]]
 ) -> Iterator[Union[TextInput, PreTokenizedInput, TextInputPair, PreTokenizedInputPair]]:
     """Extract the texts of a dataset given their keys.
 
@@ -32,7 +33,7 @@ def get_texts_from_dataset(
 
     for ds in datasets:
         for ex in ds:
-            ex = cast(Dict[str, Union[str, List[str]]], ex)
+            ex = cast(dict[str, Union[str, list[str]]], ex)
             if isinstance(key, str):
                 yield ex[key]
             else:

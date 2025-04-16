@@ -1,5 +1,6 @@
+from collections.abc import Iterator, Sequence
 from contextlib import contextmanager
-from typing import Dict, Iterator, List, Optional, Sequence, Tuple, Union
+from typing import Optional, Union
 
 import torch
 from torch.optim import Optimizer
@@ -18,7 +19,7 @@ def reduce_train_vocab_and_context(
     texts: Sequence[Union[TextInput, PreTokenizedInput, TextInputPair, PreTokenizedInputPair]],
     empty_cuda_cache: Optional[bool] = None,
     optimizer: Optional[Optimizer] = None,
-) -> Tuple[List[int], Dict[str, int], torch.Tensor]:
+) -> tuple[list[int], dict[str, int], torch.Tensor]:
     """Reduce the vocabulary given a set of texts.
 
     Reduces the vocabulary of a model and a tokenizer by checking which tokens are used in the text
@@ -75,8 +76,8 @@ def reduce_train_vocab_and_context(
 def recreate_vocab(
     model: PreTrainedModel,
     tokenizer: PreTrainedTokenizer,
-    used_tokens: List[int],
-    saved_vocab: Dict[str, int],
+    used_tokens: list[int],
+    saved_vocab: dict[str, int],
     saved_embeddings: torch.Tensor,
     empty_cuda_cache: Optional[bool] = None,
 ) -> None:

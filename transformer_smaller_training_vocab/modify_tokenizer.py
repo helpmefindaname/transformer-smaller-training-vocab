@@ -1,13 +1,11 @@
-from typing import Dict, List
-
 from transformers import PreTrainedTokenizer
 
 from transformer_smaller_training_vocab.transformer_set_vocab import set_vocab
 
 
-def reduce_tokenizer(tokenizer: PreTrainedTokenizer, used_token_ids: List[int]) -> Dict[str, int]:
+def reduce_tokenizer(tokenizer: PreTrainedTokenizer, used_token_ids: list[int]) -> dict[str, int]:
     vocab = tokenizer.get_vocab()
-    reversed_vocab: Dict[int, str] = dict(map(reversed, vocab.items()))  # type: ignore[arg-type]
+    reversed_vocab: dict[int, str] = dict(map(reversed, vocab.items()))  # type: ignore[arg-type]
     # typeignore -> map does not allow reversed
 
     reduced_vocab = {reversed_vocab[token_id]: i for i, token_id in enumerate(used_token_ids)}
@@ -15,5 +13,5 @@ def reduce_tokenizer(tokenizer: PreTrainedTokenizer, used_token_ids: List[int]) 
     return vocab
 
 
-def recreate_tokenizer(tokenizer: PreTrainedTokenizer, old_vocab: Dict[str, int]) -> None:
+def recreate_tokenizer(tokenizer: PreTrainedTokenizer, old_vocab: dict[str, int]) -> None:
     set_vocab(tokenizer, old_vocab)

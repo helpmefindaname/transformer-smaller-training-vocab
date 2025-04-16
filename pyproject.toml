@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "transformer-smaller-training-vocab"
-version = "0.3.2"
+version = "0.4.1"
 description = "Temporary remove unused tokens during training to save ram and speed."
 authors = ["Benedikt Fuchs <benedikt.fuchs.staw@hotmail.com>"]
 license = "MIT"
@@ -9,26 +9,22 @@ packages = [{ include = "transformer_smaller_training_vocab" }]
 repository = "https://github.com/helpmefindaname/transformer-smaller-training-vocab"
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = "^3.9"
 transformers = { version = "^4.1", extras = ["torch", "sentencepiece"] }
 torch = ">=1.8.0,<3.0.0,!=2.0.1"
-numpy = [
-    {version = "<1.25.0", python = ">=3.8,<3.9"},  # the newer versions do not ship python 3.8 wheels, hence we restrict it
-    {version = "^1.21.0", python = ">=3.9"}
-]
 
 [tool.poetry.group.datasets.dependencies]
 datasets = "^2.0.0"
 
 [tool.poetry.group.dev.dependencies]
-pytest = "^7.2.0"
-pytest-mypy = "^0.10.3"
-black = "^22.12.0"
-ruff = "==0.0.*"
+pytest = "^8.0.0"
+pytest-mypy = "^1.0.0"
+black = "^25.0.0"
+ruff = "^0.11.5"
 pytest-github-actions-annotate-failures = "^0.1.8"
 pytest-xdist = "^3.1.0"
 pytest-cov = "^4.0.0"
-pytest-ruff = "^0.0.6"
+pytest-ruff = "^0.4.0"
 pytest-black-ng = "^0.4.1"
 
 
@@ -48,13 +44,15 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.black]
 line-length = 120
-target-version = ['py38']
+target-version = ['py39']
 
 
 [tool.ruff]
 line-length = 120
-target-version = 'py38'
+target-version = 'py39'
 
+
+[tool.ruff.lint]
 select = [
   "C4",
   "COM",
@@ -101,7 +99,7 @@ unfixable = [
   "F841",   # Do not remove unused variables automatically
 ]
 
-[tool.ruff.pydocstyle]
+[tool.ruff.lint.pydocstyle]
 convention = "google"
 
 [tool.pytest.ini_options]
