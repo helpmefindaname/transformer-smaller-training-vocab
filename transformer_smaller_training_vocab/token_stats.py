@@ -1,12 +1,12 @@
 from collections.abc import Sequence
 from typing import Union
 
-from transformers import PreTrainedTokenizer
+from transformers import PreTrainedTokenizerBase
 from transformers.tokenization_utils_base import PreTokenizedInput, PreTokenizedInputPair, TextInput, TextInputPair
 
 
 def get_token_stats(
-    tokenizer: PreTrainedTokenizer,
+    tokenizer: PreTrainedTokenizerBase,
     texts: Sequence[Union[TextInput, PreTokenizedInput, TextInputPair, PreTokenizedInputPair]],
 ) -> list[int]:
     used = {token_id for token_id, token in tokenizer.added_tokens_decoder.items() if token.special}
