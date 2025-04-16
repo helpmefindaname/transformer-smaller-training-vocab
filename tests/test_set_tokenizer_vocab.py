@@ -3,7 +3,7 @@ import json
 import pytest
 from tokenizers import Tokenizer
 from tokenizers.models import WordLevel
-from transformers import AutoTokenizer, PreTrainedTokenizer, PreTrainedTokenizerFast
+from transformers import AutoTokenizer, PreTrainedTokenizerBase, PreTrainedTokenizerFast
 
 from transformer_smaller_training_vocab.modify_tokenizer import recreate_tokenizer, reduce_tokenizer
 from transformer_smaller_training_vocab.token_stats import get_token_stats
@@ -24,7 +24,7 @@ fast_model_names = [
 unsupported_tokenizers = ["google/electra-small-discriminator"]
 
 
-def assert_reduction_and_creation_works(tokenizer: PreTrainedTokenizer, texts: list[str]) -> None:
+def assert_reduction_and_creation_works(tokenizer: PreTrainedTokenizerBase, texts: list[str]) -> None:
     used_tokens = get_token_stats(tokenizer, texts)
     n = len(used_tokens)
 
@@ -68,7 +68,7 @@ def test_slow_tokenizer_has_fixed_vocab(model_name: str) -> None:
         "Home sweet home",
         "ay ay ay",
     ]
-    tokenizer: PreTrainedTokenizer = AutoTokenizer.from_pretrained(model_name, use_fast=False)
+    tokenizer = AutoTokenizer.from_pretrained(model_name, use_fast=False)
     assert_reduction_and_creation_works(tokenizer, texts)
 
 
@@ -114,7 +114,7 @@ def test_slow_tokenizer_handles_special_tokens(model_name: str) -> None:
     texts = [
         "[FLERT] I live in Vienna [FLERT] Home sweet home",
     ]
-    tokenizer: PreTrainedTokenizer = AutoTokenizer.from_pretrained(model_name, use_fast=False)
+    tokenizer = AutoTokenizer.from_pretrained(model_name, use_fast=False)
     tokenizer.add_special_tokens({"additional_special_tokens": ["[FLERT]"]})
     assert_reduction_and_creation_works(tokenizer, texts)
 

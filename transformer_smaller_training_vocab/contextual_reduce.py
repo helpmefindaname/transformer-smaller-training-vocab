@@ -4,7 +4,7 @@ from typing import Optional, Union
 
 import torch
 from torch.optim import Optimizer
-from transformers import PreTrainedModel, PreTrainedTokenizer
+from transformers import PreTrainedModel, PreTrainedTokenizerBase
 from transformers.tokenization_utils_base import PreTokenizedInput, PreTokenizedInputPair, TextInput, TextInputPair
 
 from transformer_smaller_training_vocab.logging_utils import logger
@@ -15,7 +15,7 @@ from transformer_smaller_training_vocab.token_stats import get_token_stats
 
 def reduce_train_vocab_and_context(
     model: PreTrainedModel,
-    tokenizer: PreTrainedTokenizer,
+    tokenizer: PreTrainedTokenizerBase,
     texts: Sequence[Union[TextInput, PreTokenizedInput, TextInputPair, PreTokenizedInputPair]],
     empty_cuda_cache: Optional[bool] = None,
     optimizer: Optional[Optimizer] = None,
@@ -75,7 +75,7 @@ def reduce_train_vocab_and_context(
 
 def recreate_vocab(
     model: PreTrainedModel,
-    tokenizer: PreTrainedTokenizer,
+    tokenizer: PreTrainedTokenizerBase,
     used_tokens: list[int],
     saved_vocab: dict[str, int],
     saved_embeddings: torch.Tensor,
@@ -109,7 +109,7 @@ def recreate_vocab(
 @contextmanager
 def reduce_train_vocab(
     model: PreTrainedModel,
-    tokenizer: PreTrainedTokenizer,
+    tokenizer: PreTrainedTokenizerBase,
     texts: Sequence[Union[TextInput, PreTokenizedInput, TextInputPair, PreTokenizedInputPair]],
     empty_cuda_cache: Optional[bool] = None,
     optimizer: Optional[Optimizer] = None,

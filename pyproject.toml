@@ -17,6 +17,7 @@ torch = ">=1.8.0,<3.0.0,!=2.0.1"
 datasets = "^2.0.0"
 
 [tool.poetry.group.dev.dependencies]
+transformers = { version = "!=4.51.*"}
 pytest = "^8.0.0"
 pytest-mypy = "^1.0.0"
 black = "^25.0.0"
