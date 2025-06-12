@@ -1,8 +1,9 @@
 from collections.abc import Iterator
 from typing import Union, cast
 
-from transformers import is_datasets_available, requires_backends
+from transformers import is_datasets_available
 from transformers.tokenization_utils_base import PreTokenizedInput, PreTokenizedInputPair, TextInput, TextInputPair
+from transformers.utils import requires_backends
 
 if is_datasets_available():
     from datasets import Dataset, DatasetDict
